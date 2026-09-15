@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bisaya Vocab Quiz</title>
+<style>
+  :root {
+    --bg: #faf9f6;
+    --card: #ffffff;
+    --border: #e2e0d8;
+    --border-strong: #c9c6ba;
+    --text: #1e1d1a;
+    --text-secondary: #6b6a63;
+    --text-muted: #9c9a90;
+    --success-bg: #eaf3de;
+    --success-text: #27500a;
+    --success-border: #97c459;
+    --danger-bg: #fcebeb;
+    --danger-text: #791f1f;
+    --danger-border: #e24b4a;
+    --accent: #185fa5;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16150f;
+      --card: #201f19;
+      --border: #3a382f;
+      --border-strong: #4c4a3f;
+      --text: #f1efe8;
+      --text-secondary: #b4b2a9;
+      --text-muted: #888780;
+      --success-bg: #173404;
+      --success-text: #c0dd97;
+      --success-border: #639922;
+      --danger-bg: #501313;
+      --danger-text: #f7c1c1;
+      --danger-border: #e24b4a;
+      --accent: #85b7eb;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    width: 100%;
+    max-width: 480px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+  }
+  h1 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 4px;
+    text-align: center;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    text-align: center;
+    margin: 0 0 24px;
+  }
+  .meta-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
+  .prompt-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-bottom: 6px;
+  }
+  .prompt-word {
+    font-size: 30px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  .options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  button.option {
+    padding: 14px 10px;
+    font-size: 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-strong);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: transform 0.05s ease;
+  }
+  button.option:hover:not(:disabled) {
+    background: rgba(128,128,128,0.08);
+  }
+  button.option:active:not(:disabled) {
+    transform: scale(0.98);
+  }
+  button.option:disabled {
+    cursor: default;
+  }
+  button.option.correct {
+    background: var(--success-bg);
+    border-color: var(--success-border);
+    color: var(--success-text);
+  }
+  button.option.wrong {
+    background: var(--danger-bg);
+    border-color: var(--danger-border);
+    color: var(--danger-text);
+  }
+  .feedback {
+    min-height: 20px;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 16px;
+    font-weight: 500;
+  }
+  .feedback.correct { color: var(--success-text); }
+  .feedback.wrong { color: var(--danger-text); }
+  .end-screen { text-align: center; padding: 12px 0; }
+  .end-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
+  .end-score { font-size: 40px; font-weight: 700; margin-bottom: 20px; }
+  button.primary {
+    padding: 12px 24px;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 10px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: #fff;
+    cursor: pointer;
+  }
+  button.primary:hover { opacity: 0.9; }
+  .best {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 14px;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Bisaya vocab quiz</h1>
+  <p class="subtitle">Cebuano &rarr; English, multiple choice</p>
+  <div id="app"></div>
+</div>
+
+<script>
+const WORDS = [
+  {ceb:"kaon", en:"eat"}, {ceb:"inom", en:"drink"}, {ceb:"palit", en:"buy"},
+  {ceb:"kita", en:"see / find"}, {ceb:"hatag", en:"give"}, {ceb:"adto", en:"go"},
+  {ceb:"balay", en:"house"}, {ceb:"tubig", en:"water"}, {ceb:"kwarta", en:"money"},
+  {ceb:"libro", en:"book"}, {ceb:"bata", en:"child"}, {ceb:"merkado", en:"market"},
+  {ceb:"naa", en:"there is / has"}, {ceb:"wala", en:"there isn't / doesn't have"},
+  {ceb:"dili", en:"not / won't"}, {ceb:"lami", en:"delicious"}, {ceb:"buang", en:"crazy"},
+  {ceb:"kadto", en:"that (far)"}, {ceb:"gwapa", en:"pretty (female)"}, {ceb:"gwapo", en:"handsome (male)"},
+  {ceb:"gamay", en:"small / short"}, {ceb:"hulat", en:"wait"}, {ceb:"yawe", en:"key"},
+  {ceb:"sumbag", en:"punch"}, {ceb:"gulay / utan", en:"vegetable"}, {ceb:"hapit na", en:"about to / soon"},
+  {ceb:"pauli", en:"go home"}, {ceb:"ganahan", en:"want / like"}, {ceb:"higala / amigo", en:"friend"},
+  {ceb:"kagahapon", en:"yesterday"}, {ceb:"ugma", en:"tomorrow"}, {ceb:"tudlo", en:"teach"},
+  {ceb:"kat-on", en:"learn"}, {ceb:"sabot", en:"understand"}, {ceb:"tabang", en:"help"},
+  {ceb:"sunod", en:"follow"}, {ceb:"nawala", en:"got lost"}, {ceb:"problema", en:"problem"},
+  {ceb:"gutom", en:"hungry"}, {ceb:"kapoy", en:"tired"}, {ceb:"lipay", en:"happy"},
+  {ceb:"subo / guol", en:"sad"}, {ceb:"paspas", en:"fast"}, {ceb:"hinay", en:"slow"},
+  {ceb:"hinumdom", en:"remember"}, {ceb:"kalimot", en:"forget"}, {ceb:"hulam", en:"borrow"},
+  {ceb:"pahulam", en:"lend"}, {ceb:"hilak", en:"cry"}, {ceb:"katawa", en:"laugh"},
+  {ceb:"grabe", en:"wow / intense"}, {ceb:"gyud / jud", en:"really / truly"}
+];
+
+const TOTAL = 10;
+let quiz = [], qIndex = 0, score = 0, streak = 0, answered = false;
+
+function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+
+function getBest() {
+  try { return parseInt(localStorage.getItem('bisaya-quiz-best') || '0', 10); }
+  catch (e) { return 0; }
+}
+function setBest(v) {
+  try { localStorage.setItem('bisaya-quiz-best', String(v)); } catch (e) {}
+}
+
+function buildQuiz() {
+  quiz = shuffle(WORDS).slice(0, TOTAL).map(w => {
+    const wrongPool = shuffle(WORDS.filter(x => x.en !== w.en)).slice(0, 3).map(x => x.en);
+    return { ceb: w.ceb, answer: w.en, options: shuffle([w.en, ...wrongPool]) };
+  });
+}
+
+function render() {
+  const app = document.getElementById('app');
+
+  if (qIndex >= TOTAL) {
+    const best = getBest();
+    if (score > best) setBest(score);
+    app.innerHTML = `
+      <div class="end-screen">
+        <div class="end-label">Quiz complete</div>
+        <div class="end-score">${score} / ${TOTAL}</div>
+        <button class="primary" id="restart">Play again</button>
+        <div class="best">Best score: ${Math.max(score, best)} / ${TOTAL}</div>
+      </div>`;
+    document.getElementById('restart').onclick = () => {
+      qIndex = 0; score = 0; streak = 0;
+      buildQuiz(); render();
+    };
+    return;
+  }
+
+  const q = quiz[qIndex];
+  answered = false;
+
+  app.innerHTML = `
+    <div class="meta-row">
+      <span>Question ${qIndex + 1} of ${TOTAL}</span>
+      <span>Score: ${score}${streak >= 2 ? ' &middot; streak ' + streak : ''}</span>
+    </div>
+    <div class="prompt-label">What does this mean?</div>
+    <div class="prompt-word">${q.ceb}</div>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback"></div>
+  `;
+
+  const optsEl = document.getElementById('options');
+  q.options.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.textContent = opt;
+    btn.onclick = () => handleAnswer(opt, btn, q);
+    optsEl.appendChild(btn);
+  });
+}
+
+function handleAnswer(opt, btn, q) {
+  if (answered) return;
+  answered = true;
+
+  const correct = opt === q.answer;
+  document.querySelectorAll('#options button').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === q.answer) b.classList.add('correct');
+    else if (b === btn) b.classList.add('wrong');
+  });
+
+  const fb = document.getElementById('feedback');
+  if (correct) {
+    score++; streak++;
+    fb.textContent = 'Correct!';
+    fb.className = 'feedback correct';
+  } else {
+    streak = 0;
+    fb.textContent = `Not quite — it means "${q.answer}"`;
+    fb.className = 'feedback wrong';
+  }
+
+  setTimeout(() => { qIndex++; render(); }, 1100);
+}
+
+buildQuiz();
+render();
+</script>
+</body>
+</html>
