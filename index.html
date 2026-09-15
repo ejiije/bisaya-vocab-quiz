@@ -20,6 +20,7 @@
     --danger-text: #791f1f;
     --danger-border: #e24b4a;
     --accent: #185fa5;
+    --accent-bg: #e6f1fb;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -37,6 +38,7 @@
       --danger-text: #f7c1c1;
       --danger-border: #e24b4a;
       --accent: #85b7eb;
+      --accent-bg: #042c53;
     }
   }
   * { box-sizing: border-box; }
@@ -59,180 +61,376 @@
     border-radius: 16px;
     padding: 28px 24px;
   }
-  h1 {
-    font-size: 18px;
-    font-weight: 600;
-    margin: 0 0 4px;
-    text-align: center;
-  }
-  .subtitle {
-    font-size: 13px;
-    color: var(--text-secondary);
-    text-align: center;
-    margin: 0 0 24px;
-  }
-  .meta-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin-bottom: 20px;
-  }
-  .prompt-label {
-    font-size: 12px;
-    color: var(--text-muted);
-    text-align: center;
-    margin-bottom: 6px;
-  }
-  .prompt-word {
-    font-size: 30px;
-    font-weight: 600;
-    text-align: center;
-    margin-bottom: 24px;
-  }
-  .options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
+  h1 { font-size: 18px; font-weight: 600; margin: 0 0 4px; text-align: center; }
+  .subtitle { font-size: 13px; color: var(--text-secondary); text-align: center; margin: 0 0 20px; }
+  .meta-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
+  .prompt-label { font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 6px; }
+  .prompt-word { font-size: 30px; font-weight: 600; text-align: center; margin-bottom: 20px; }
+  .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  button { font-family: inherit; cursor: pointer; }
   button.option {
-    padding: 14px 10px;
-    font-size: 14px;
-    border-radius: 10px;
-    border: 1px solid var(--border-strong);
-    background: transparent;
-    color: var(--text);
-    cursor: pointer;
+    padding: 14px 10px; font-size: 14px; border-radius: 10px;
+    border: 1px solid var(--border-strong); background: transparent; color: var(--text);
     transition: transform 0.05s ease;
   }
-  button.option:hover:not(:disabled) {
-    background: rgba(128,128,128,0.08);
-  }
-  button.option:active:not(:disabled) {
-    transform: scale(0.98);
-  }
-  button.option:disabled {
-    cursor: default;
-  }
-  button.option.correct {
-    background: var(--success-bg);
-    border-color: var(--success-border);
-    color: var(--success-text);
-  }
-  button.option.wrong {
-    background: var(--danger-bg);
-    border-color: var(--danger-border);
-    color: var(--danger-text);
-  }
-  .feedback {
-    min-height: 20px;
-    text-align: center;
-    font-size: 14px;
-    margin-top: 16px;
-    font-weight: 500;
-  }
+  button.option:hover:not(:disabled) { background: rgba(128,128,128,0.08); }
+  button.option:active:not(:disabled) { transform: scale(0.98); }
+  button.option:disabled { cursor: default; }
+  button.option.correct { background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+  button.option.wrong { background: var(--danger-bg); border-color: var(--danger-border); color: var(--danger-text); }
+  .feedback { min-height: 20px; text-align: center; font-size: 14px; margin-top: 16px; font-weight: 500; }
   .feedback.correct { color: var(--success-text); }
   .feedback.wrong { color: var(--danger-text); }
-  .end-screen { text-align: center; padding: 12px 0; }
+  .end-screen { text-align: center; padding: 8px 0; }
   .end-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
   .end-score { font-size: 40px; font-weight: 700; margin-bottom: 20px; }
+  .best { font-size: 12px; color: var(--text-muted); margin-top: 14px; }
   button.primary {
-    padding: 12px 24px;
-    font-size: 14px;
-    font-weight: 500;
-    border-radius: 10px;
-    border: 1px solid var(--accent);
-    background: var(--accent);
-    color: #fff;
-    cursor: pointer;
+    padding: 12px 24px; font-size: 14px; font-weight: 500; border-radius: 10px;
+    border: 1px solid var(--accent); background: var(--accent); color: #fff;
+    width: 100%; margin-bottom: 10px;
   }
   button.primary:hover { opacity: 0.9; }
-  .best {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-top: 14px;
+  button.secondary {
+    padding: 12px 24px; font-size: 14px; font-weight: 500; border-radius: 10px;
+    border: 1px solid var(--border-strong); background: transparent; color: var(--text);
+    width: 100%; margin-bottom: 10px;
   }
+  button.secondary:hover { background: rgba(128,128,128,0.08); }
+  .menu-stats { text-align: center; font-size: 13px; color: var(--text-secondary); margin-bottom: 22px; }
+  .back-row { margin-bottom: 18px; }
+  button.back { background: none; border: none; color: var(--text-secondary); font-size: 13px; padding: 4px 0; }
+  button.back:hover { color: var(--text); }
+  .field-row { margin-bottom: 18px; }
+  .field-label { font-size: 13px; font-weight: 500; margin-bottom: 8px; display: block; }
+  select, input[type=text] {
+    width: 100%; padding: 10px 12px; font-size: 14px; border-radius: 8px;
+    border: 1px solid var(--border-strong); background: var(--card); color: var(--text); font-family: inherit;
+  }
+  .toggle-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+  .switch { position: relative; width: 42px; height: 24px; flex-shrink: 0; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; cursor: pointer; inset: 0; background: var(--border-strong); border-radius: 24px; transition: 0.15s; }
+  .slider:before { content: ""; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.15s; }
+  input:checked + .slider { background: var(--accent); }
+  input:checked + .slider:before { transform: translateX(18px); }
+  .wordlist { max-height: 260px; overflow-y: auto; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; }
+  .word-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; gap: 8px; }
+  .word-row:last-child { border-bottom: none; }
+  .word-row .word-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .word-row .word-ceb { font-weight: 500; }
+  .word-row .word-en { color: var(--text-secondary); }
+  button.del { background: none; border: none; color: var(--danger-text); font-size: 12px; padding: 4px 8px; flex-shrink: 0; }
+  .add-form { display: flex; gap: 8px; margin-bottom: 10px; }
+  .add-form input { flex: 1; }
+  .add-form button { flex-shrink: 0; padding: 0 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent-bg); color: var(--accent); font-size: 13px; font-weight: 500; }
+  .count-note { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
+  .timer-bar-wrap { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 16px; }
+  .timer-bar { height: 100%; background: var(--accent); transition: width 0.2s linear; }
 </style>
 </head>
 <body>
 <div class="card">
-  <h1>Bisaya vocab quiz</h1>
+  <h1>Bisaya Vocab Quiz</h1>
   <p class="subtitle">Cebuano &rarr; English, multiple choice</p>
   <div id="app"></div>
 </div>
 
 <script>
-const WORDS = [
+  
+const DEFAULT_WORDS = [
+  // Greetings & basics
+  {ceb:"maayong buntag", en:"good morning"}, {ceb:"maayong hapon", en:"good afternoon"},
+  {ceb:"maayong gabii", en:"good evening"}, {ceb:"kumusta", en:"how are you"},
+  {ceb:"salamat", en:"thank you"}, {ceb:"palihug", en:"please"},
+  {ceb:"pasensya / pasaylo", en:"sorry / excuse me"}, {ceb:"oo", en:"yes"},
+  {ceb:"sige", en:"okay / go ahead"}, {ceb:"ayaw", en:"don't"},
+  {ceb:"amping", en:"take care"}, {ceb:"babay", en:"bye"},
+
+  // Question words
+  {ceb:"unsa", en:"what"}, {ceb:"asa", en:"where"}, {ceb:"kinsa", en:"who"},
+  {ceb:"kanus-a", en:"when"}, {ceb:"ngano", en:"why"}, {ceb:"giunsa", en:"how"},
+  {ceb:"pila", en:"how much / how many"},
+
+  // Pronouns & possessives
+  {ceb:"ako / ko", en:"I / me"}, {ceb:"ikaw / ka", en:"you (sg.)"},
+  {ceb:"siya", en:"he / she"}, {ceb:"kami / mi", en:"we (excl.)"},
+  {ceb:"kita", en:"we (incl., you and I)"}, {ceb:"kamo / mo", en:"you (pl.)"},
+  {ceb:"sila", en:"they"}, {ceb:"akoa", en:"mine"}, {ceb:"imoha", en:"yours"},
+  {ceb:"iyaha", en:"his / hers"},
+
+  // Family
+  {ceb:"amahan / papa", en:"father"}, {ceb:"inahan / mama", en:"mother"},
+  {ceb:"igsoon", en:"sibling"}, {ceb:"anak", en:"child (offspring)"},
+  {ceb:"apohan", en:"grandparent"}, {ceb:"apo", en:"grandchild"},
+  {ceb:"uyoan", en:"uncle"}, {ceb:"iyaan / tiya", en:"aunt"},
+  {ceb:"pamilya", en:"family"}, {ceb:"asawa", en:"wife"}, {ceb:"bana", en:"husband"},
+
+  // Numbers
+  {ceb:"usa / isa", en:"one"}, {ceb:"duha", en:"two"}, {ceb:"tulo", en:"three"},
+  {ceb:"upat", en:"four"}, {ceb:"lima", en:"five"}, {ceb:"unom", en:"six"},
+  {ceb:"pito", en:"seven"}, {ceb:"walo", en:"eight"}, {ceb:"siyam", en:"nine"},
+  {ceb:"napulo", en:"ten"},
+
+  // Time
+  {ceb:"karon", en:"now"}, {ceb:"unya", en:"later"}, {ceb:"ugma", en:"tomorrow"},
+  {ceb:"kagahapon", en:"yesterday"}, {ceb:"buntag", en:"morning"},
+  {ceb:"hapon", en:"afternoon"}, {ceb:"gabii", en:"evening / night"},
+  {ceb:"adlaw", en:"day / sun"}, {ceb:"semana", en:"week"},
+  {ceb:"bulan", en:"month / moon"}, {ceb:"tuig", en:"year"},
+
+  // Colors
+  {ceb:"pula", en:"red"}, {ceb:"asul", en:"blue"}, {ceb:"berde", en:"green"},
+  {ceb:"dilaw", en:"yellow"}, {ceb:"itom", en:"black"}, {ceb:"puti", en:"white"},
+
+  // Common verbs
   {ceb:"kaon", en:"eat"}, {ceb:"inom", en:"drink"}, {ceb:"palit", en:"buy"},
   {ceb:"kita", en:"see / find"}, {ceb:"hatag", en:"give"}, {ceb:"adto", en:"go"},
-  {ceb:"balay", en:"house"}, {ceb:"tubig", en:"water"}, {ceb:"kwarta", en:"money"},
-  {ceb:"libro", en:"book"}, {ceb:"bata", en:"child"}, {ceb:"merkado", en:"market"},
-  {ceb:"naa", en:"there is / has"}, {ceb:"wala", en:"there isn't / doesn't have"},
-  {ceb:"dili", en:"not / won't"}, {ceb:"lami", en:"delicious"}, {ceb:"buang", en:"crazy"},
-  {ceb:"kadto", en:"that (far)"}, {ceb:"gwapa", en:"pretty (female)"}, {ceb:"gwapo", en:"handsome (male)"},
-  {ceb:"gamay", en:"small / short"}, {ceb:"hulat", en:"wait"}, {ceb:"yawe", en:"key"},
-  {ceb:"sumbag", en:"punch"}, {ceb:"gulay / utan", en:"vegetable"}, {ceb:"hapit na", en:"about to / soon"},
-  {ceb:"pauli", en:"go home"}, {ceb:"ganahan", en:"want / like"}, {ceb:"higala / amigo", en:"friend"},
-  {ceb:"kagahapon", en:"yesterday"}, {ceb:"ugma", en:"tomorrow"}, {ceb:"tudlo", en:"teach"},
-  {ceb:"kat-on", en:"learn"}, {ceb:"sabot", en:"understand"}, {ceb:"tabang", en:"help"},
-  {ceb:"sunod", en:"follow"}, {ceb:"nawala", en:"got lost"}, {ceb:"problema", en:"problem"},
-  {ceb:"gutom", en:"hungry"}, {ceb:"kapoy", en:"tired"}, {ceb:"lipay", en:"happy"},
-  {ceb:"subo / guol", en:"sad"}, {ceb:"paspas", en:"fast"}, {ceb:"hinay", en:"slow"},
+  {ceb:"lakaw", en:"walk"}, {ceb:"dagan", en:"run"}, {ceb:"tindog", en:"stand"},
+  {ceb:"lingkod", en:"sit"}, {ceb:"tulog", en:"sleep"}, {ceb:"mata", en:"wake up"},
+  {ceb:"sulti", en:"speak / talk"}, {ceb:"pangutana", en:"ask"}, {ceb:"tubag", en:"answer"},
+  {ceb:"tan-aw", en:"watch / look"}, {ceb:"paminaw", en:"listen"}, {ceb:"sulat", en:"write"},
+  {ceb:"basa", en:"read"}, {ceb:"luto", en:"cook"}, {ceb:"hugas", en:"wash"},
+  {ceb:"limpyo", en:"clean"}, {ceb:"trabaho", en:"work"}, {ceb:"dula", en:"play"},
+  {ceb:"tudlo", en:"teach"}, {ceb:"kat-on", en:"learn"}, {ceb:"sabot", en:"understand"},
+  {ceb:"tabang", en:"help"}, {ceb:"sunod", en:"follow"}, {ceb:"hulat", en:"wait"},
   {ceb:"hinumdom", en:"remember"}, {ceb:"kalimot", en:"forget"}, {ceb:"hulam", en:"borrow"},
   {ceb:"pahulam", en:"lend"}, {ceb:"hilak", en:"cry"}, {ceb:"katawa", en:"laugh"},
-  {ceb:"grabe", en:"wow / intense"}, {ceb:"gyud / jud", en:"really / truly"}
+  {ceb:"pauli", en:"go home"}, {ceb:"ganahan", en:"want / like"}, {ceb:"pwede", en:"can / may"},
+  {ceb:"dapat", en:"should / must"},
+
+  // Places
+  {ceb:"balay", en:"house"}, {ceb:"eskwelahan", en:"school"}, {ceb:"simbahan", en:"church"},
+  {ceb:"ospital", en:"hospital"}, {ceb:"tindahan", en:"store"}, {ceb:"merkado", en:"market"},
+  {ceb:"banyo", en:"bathroom"}, {ceb:"kusina", en:"kitchen"}, {ceb:"kwarto", en:"room"},
+  {ceb:"syudad", en:"city"}, {ceb:"baryo", en:"barangay / village"}, {ceb:"dagat", en:"sea"},
+  {ceb:"bukid", en:"mountain"},
+
+  // Food
+  {ceb:"kan-on", en:"cooked rice"}, {ceb:"tinapay", en:"bread"}, {ceb:"karne", en:"meat"},
+  {ceb:"isda", en:"fish"}, {ceb:"manok", en:"chicken"}, {ceb:"prutas", en:"fruit"},
+  {ceb:"gulay / utan", en:"vegetable"}, {ceb:"asin", en:"salt"}, {ceb:"asukar", en:"sugar"},
+  {ceb:"kape", en:"coffee"}, {ceb:"gatas", en:"milk"}, {ceb:"tubig", en:"water"},
+  {ceb:"lami", en:"delicious"},
+
+  // Adjectives & states
+  {ceb:"dako", en:"big"}, {ceb:"gamay", en:"small / short"}, {ceb:"taas", en:"tall / long"},
+  {ceb:"mubo", en:"short (length)"}, {ceb:"init", en:"hot"}, {ceb:"bugnaw", en:"cold"},
+  {ceb:"bag-o", en:"new"}, {ceb:"daan", en:"old (thing)"}, {ceb:"lisod", en:"difficult"},
+  {ceb:"sayon", en:"easy"}, {ceb:"hinay", en:"slow"}, {ceb:"paspas", en:"fast"},
+  {ceb:"maayo", en:"good"}, {ceb:"daotan", en:"bad"}, {ceb:"gwapo", en:"handsome"},
+  {ceb:"gwapa", en:"pretty"}, {ceb:"gutom", en:"hungry"}, {ceb:"kapoy", en:"tired"},
+  {ceb:"lipay", en:"happy"}, {ceb:"subo / guol", en:"sad"}, {ceb:"buang", en:"crazy"},
+  {ceb:"naa", en:"there is / has"}, {ceb:"wala", en:"there isn't / doesn't have"},
+  {ceb:"dili", en:"not / won't"},
+
+  // Weather
+  {ceb:"ulan", en:"rain"}, {ceb:"hangin", en:"wind"}, {ceb:"bagyo", en:"storm"},
+
+  // Money / shopping
+  {ceb:"kwarta", en:"money"}, {ceb:"presyo", en:"price"}, {ceb:"barato", en:"cheap"},
+  {ceb:"mahal", en:"expensive"},
+
+  // Common particles & fillers
+  {ceb:"gyud / jud", en:"really / truly"}, {ceb:"lang / ra", en:"only / just"},
+  {ceb:"pud / sad", en:"also / too"}, {ceb:"diri", en:"here"}, {ceb:"diha", en:"there (near you)"},
+  {ceb:"didto", en:"over there (far)"}, {ceb:"kadto", en:"that (far)"}, {ceb:"grabe", en:"wow / intense"},
+
+  // People / misc
+  {ceb:"bata", en:"child"}, {ceb:"higala / amigo", en:"friend"}, {ceb:"yawe", en:"key"},
+  {ceb:"libro", en:"book"}, {ceb:"problema", en:"problem"}, {ceb:"nawala", en:"got lost"},
+  {ceb:"sumbag", en:"punch"}, {ceb:"hapit na", en:"about to / soon"}
 ];
 
-const TOTAL = 10;
-let quiz = [], qIndex = 0, score = 0, streak = 0, answered = false;
+const DEFAULT_SETTINGS = { count: 10, timerEnabled: false, timerSeconds: 15 };
+
+const LS_WORDS = 'bisaya-quiz-words';
+const LS_SETTINGS = 'bisaya-quiz-settings';
+const LS_BEST = 'bisaya-quiz-best';
+
+function safeGet(key, fallback) {
+  try {
+    const v = localStorage.getItem(key);
+    return v ? JSON.parse(v) : fallback;
+  } catch (e) { return fallback; }
+}
+function safeSet(key, val) {
+  try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
+}
+
+function getWords() { return safeGet(LS_WORDS, DEFAULT_WORDS); }
+function setWords(w) { safeSet(LS_WORDS, w); }
+function getSettings() { return Object.assign({}, DEFAULT_SETTINGS, safeGet(LS_SETTINGS, {})); }
+function setSettings(s) { safeSet(LS_SETTINGS, s); }
+function getBest() { return safeGet(LS_BEST, 0); }
+function setBest(v) { safeSet(LS_BEST, v); }
 
 function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
 
-function getBest() {
-  try { return parseInt(localStorage.getItem('bisaya-quiz-best') || '0', 10); }
-  catch (e) { return 0; }
-}
-function setBest(v) {
-  try { localStorage.setItem('bisaya-quiz-best', String(v)); } catch (e) {}
-}
+let screen = 'menu';
+let quiz = [], qIndex = 0, score = 0, streak = 0, answered = false;
+let timerInterval = null, timeLeft = 0;
 
-function buildQuiz() {
-  quiz = shuffle(WORDS).slice(0, TOTAL).map(w => {
-    const wrongPool = shuffle(WORDS.filter(x => x.en !== w.en)).slice(0, 3).map(x => x.en);
-    return { ceb: w.ceb, answer: w.en, options: shuffle([w.en, ...wrongPool]) };
-  });
-}
+const app = document.getElementById('app');
 
 function render() {
-  const app = document.getElementById('app');
+  if (screen === 'menu') return renderMenu();
+  if (screen === 'settings') return renderSettings();
+  if (screen === 'wordbank') return renderWordbank();
+  if (screen === 'quiz') return renderQuiz();
+  if (screen === 'end') return renderEnd();
+}
 
-  if (qIndex >= TOTAL) {
-    const best = getBest();
-    if (score > best) setBest(score);
-    app.innerHTML = `
-      <div class="end-screen">
-        <div class="end-label">Quiz complete</div>
-        <div class="end-score">${score} / ${TOTAL}</div>
-        <button class="primary" id="restart">Play again</button>
-        <div class="best">Best score: ${Math.max(score, best)} / ${TOTAL}</div>
-      </div>`;
-    document.getElementById('restart').onclick = () => {
-      qIndex = 0; score = 0; streak = 0;
-      buildQuiz(); render();
+function renderMenu() {
+  const best = getBest();
+  const words = getWords();
+  app.innerHTML = `
+    <div class="menu-stats">${words.length} words in bank &middot; best score ${best}</div>
+    <button class="primary" id="play">Play</button>
+    <button class="secondary" id="wordbank">Word bank</button>
+    <button class="secondary" id="settings">Settings</button>
+  `;
+  document.getElementById('play').onclick = () => { screen = 'quiz'; startQuiz(); };
+  document.getElementById('wordbank').onclick = () => { screen = 'wordbank'; render(); };
+  document.getElementById('settings').onclick = () => { screen = 'settings'; render(); };
+}
+
+function renderSettings() {
+  const s = getSettings();
+  const words = getWords();
+  const maxCount = Math.min(30, words.length);
+  const countOptions = [5, 10, 15, 20, 25, 30].filter(n => n <= maxCount || n === 5);
+  app.innerHTML = `
+    <div class="back-row"><button class="back" id="back">&larr; Back</button></div>
+    <div class="field-row">
+      <label class="field-label">Questions per round</label>
+      <select id="count">
+        ${countOptions.map(n => `<option value="${n}" ${n === s.count ? 'selected' : ''}>${n}</option>`).join('')}
+      </select>
+    </div>
+    <div class="toggle-row">
+      <label class="field-label" style="margin:0;">Timer per question</label>
+      <label class="switch">
+        <input type="checkbox" id="timerToggle" ${s.timerEnabled ? 'checked' : ''}>
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="field-row" id="timerSecondsRow" style="${s.timerEnabled ? '' : 'display:none;'}">
+      <label class="field-label">Seconds per question</label>
+      <select id="timerSeconds">
+        ${[5, 10, 15, 20, 30].map(n => `<option value="${n}" ${n === s.timerSeconds ? 'selected' : ''}>${n}s</option>`).join('')}
+      </select>
+    </div>
+  `;
+  document.getElementById('back').onclick = () => { screen = 'menu'; render(); };
+  document.getElementById('count').onchange = (e) => {
+    const cur = getSettings();
+    cur.count = parseInt(e.target.value, 10);
+    setSettings(cur);
+  };
+  document.getElementById('timerToggle').onchange = (e) => {
+    const cur = getSettings();
+    cur.timerEnabled = e.target.checked;
+    setSettings(cur);
+    document.getElementById('timerSecondsRow').style.display = cur.timerEnabled ? '' : 'none';
+  };
+  document.getElementById('timerSeconds').onchange = (e) => {
+    const cur = getSettings();
+    cur.timerSeconds = parseInt(e.target.value, 10);
+    setSettings(cur);
+  };
+}
+
+function renderWordbank() {
+  const words = getWords();
+  app.innerHTML = `
+    <div class="back-row"><button class="back" id="back">&larr; Back</button></div>
+    <div class="add-form">
+      <input type="text" id="newCeb" placeholder="Cebuano word">
+      <input type="text" id="newEn" placeholder="English meaning">
+      <button id="addWord">Add</button>
+    </div>
+    <div class="count-note">${words.length} words &middot; need at least 4 to play</div>
+    <div class="wordlist" id="wordlist"></div>
+    <button class="secondary" id="resetWords">Reset to default list</button>
+  `;
+  const listEl = document.getElementById('wordlist');
+  words.forEach((w, i) => {
+    const row = document.createElement('div');
+    row.className = 'word-row';
+    row.innerHTML = `
+      <span class="word-text"><span class="word-ceb">${escapeHtml(w.ceb)}</span> &mdash; <span class="word-en">${escapeHtml(w.en)}</span></span>
+      <button class="del" data-i="${i}">Remove</button>
+    `;
+    listEl.appendChild(row);
+  });
+  listEl.querySelectorAll('.del').forEach(btn => {
+    btn.onclick = () => {
+      const i = parseInt(btn.getAttribute('data-i'), 10);
+      const cur = getWords();
+      cur.splice(i, 1);
+      setWords(cur);
+      renderWordbank();
     };
-    return;
-  }
+  });
+  document.getElementById('back').onclick = () => { screen = 'menu'; render(); };
+  document.getElementById('addWord').onclick = () => {
+    const cebEl = document.getElementById('newCeb');
+    const enEl = document.getElementById('newEn');
+    const ceb = cebEl.value.trim();
+    const en = enEl.value.trim();
+    if (!ceb || !en) return;
+    const cur = getWords();
+    cur.push({ ceb, en });
+    setWords(cur);
+    renderWordbank();
+  };
+  document.getElementById('resetWords').onclick = () => {
+    setWords(DEFAULT_WORDS);
+    renderWordbank();
+  };
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function startQuiz() {
+  const s = getSettings();
+  const words = getWords();
+  const count = Math.min(s.count, words.length);
+  quiz = shuffle(words).slice(0, count).map(w => {
+    const wrongPool = shuffle(words.filter(x => x.en !== w.en)).slice(0, 3).map(x => x.en);
+    return { ceb: w.ceb, answer: w.en, options: shuffle([w.en, ...wrongPool]) };
+  });
+  qIndex = 0; score = 0; streak = 0;
+  render();
+}
+
+function renderQuiz() {
+  const s = getSettings();
+  const total = quiz.length;
+
+  if (qIndex >= total) { screen = 'end'; return render(); }
 
   const q = quiz[qIndex];
   answered = false;
 
+  let timerHtml = '';
+  if (s.timerEnabled) {
+    timerHtml = `<div class="timer-bar-wrap"><div class="timer-bar" id="timerBar" style="width:100%;"></div></div>`;
+  }
+
   app.innerHTML = `
     <div class="meta-row">
-      <span>Question ${qIndex + 1} of ${TOTAL}</span>
+      <span>Question ${qIndex + 1} of ${total}</span>
       <span>Score: ${score}${streak >= 2 ? ' &middot; streak ' + streak : ''}</span>
     </div>
+    ${timerHtml}
     <div class="prompt-label">What does this mean?</div>
-    <div class="prompt-word">${q.ceb}</div>
+    <div class="prompt-word">${escapeHtml(q.ceb)}</div>
     <div class="options" id="options"></div>
     <div class="feedback" id="feedback"></div>
   `;
@@ -245,17 +443,35 @@ function render() {
     btn.onclick = () => handleAnswer(opt, btn, q);
     optsEl.appendChild(btn);
   });
+
+  if (s.timerEnabled) {
+    timeLeft = s.timerSeconds;
+    const bar = document.getElementById('timerBar');
+    const totalMs = s.timerSeconds * 1000;
+    const start = Date.now();
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      const elapsed = Date.now() - start;
+      const pct = Math.max(0, 100 - (elapsed / totalMs) * 100);
+      if (bar) bar.style.width = pct + '%';
+      if (elapsed >= totalMs) {
+        clearInterval(timerInterval);
+        if (!answered) handleAnswer(null, null, q);
+      }
+    }, 100);
+  }
 }
 
 function handleAnswer(opt, btn, q) {
   if (answered) return;
   answered = true;
+  clearInterval(timerInterval);
 
   const correct = opt === q.answer;
   document.querySelectorAll('#options button').forEach(b => {
     b.disabled = true;
     if (b.textContent === q.answer) b.classList.add('correct');
-    else if (b === btn) b.classList.add('wrong');
+    else if (btn && b === btn) b.classList.add('wrong');
   });
 
   const fb = document.getElementById('feedback');
@@ -265,14 +481,31 @@ function handleAnswer(opt, btn, q) {
     fb.className = 'feedback correct';
   } else {
     streak = 0;
-    fb.textContent = `Not quite — it means "${q.answer}"`;
+    fb.textContent = opt === null ? `Time's up — it means "${q.answer}"` : `Not quite — it means "${q.answer}"`;
     fb.className = 'feedback wrong';
   }
 
   setTimeout(() => { qIndex++; render(); }, 1100);
 }
 
-buildQuiz();
+function renderEnd() {
+  const total = quiz.length;
+  const best = getBest();
+  if (score > best) setBest(score);
+  app.innerHTML = `
+    <div class="end-screen">
+      <div class="end-label">Quiz complete</div>
+      <div class="end-score">${score} / ${total}</div>
+      <button class="primary" id="again">Play again</button>
+      <button class="secondary" id="menu">Main menu</button>
+      <div class="best">Best score: ${Math.max(score, best)} / ${total}</div>
+    </div>
+  `;
+  document.getElementById('again').onclick = () => { screen = 'quiz'; startQuiz(); };
+  document.getElementById('menu').onclick = () => { screen = 'menu'; render(); };
+}
+
+if (!safeGet(LS_WORDS, null)) setWords(DEFAULT_WORDS);
 render();
 </script>
 </body>
