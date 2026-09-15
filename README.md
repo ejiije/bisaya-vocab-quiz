@@ -2,7 +2,7 @@
 
 A small, single-file, no-dependency web app for drilling Cebuano (Bisaya) vocabulary — multiple choice, Cebuano to English. Built for self-study, no backend, no build step.
 
-**[Play it here](#)** — replace with your live GitHub Pages URL, e.g. `https://yourusername.github.io/bisaya-quiz/`
+**[Play it here](#)** — replace with your live GitHub Pages URL, e.g. `https://ejiije.github.io/bisaya-vocab-quiz/`
 
 ## Features
 
