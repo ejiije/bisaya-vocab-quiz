@@ -3,70 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bisaya Vocab Quiz</title>
+<title>Bisaya Study App</title>
 <style>
   :root {
-    --bg: #faf9f6;
-    --card: #ffffff;
-    --border: #e2e0d8;
-    --border-strong: #c9c6ba;
-    --text: #1e1d1a;
-    --text-secondary: #6b6a63;
-    --text-muted: #9c9a90;
-    --success-bg: #eaf3de;
-    --success-text: #27500a;
-    --success-border: #97c459;
-    --danger-bg: #fcebeb;
-    --danger-text: #791f1f;
-    --danger-border: #e24b4a;
-    --accent: #185fa5;
-    --accent-bg: #e6f1fb;
+    --bg: #faf9f6; --card: #ffffff; --border: #e2e0d8; --border-strong: #c9c6ba;
+    --text: #1e1d1a; --text-secondary: #6b6a63; --text-muted: #9c9a90;
+    --success-bg: #eaf3de; --success-text: #27500a; --success-border: #97c459;
+    --danger-bg: #fcebeb; --danger-text: #791f1f; --danger-border: #e24b4a;
+    --accent: #185fa5; --accent-bg: #e6f1fb;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #16150f;
-      --card: #201f19;
-      --border: #3a382f;
-      --border-strong: #4c4a3f;
-      --text: #f1efe8;
-      --text-secondary: #b4b2a9;
-      --text-muted: #888780;
-      --success-bg: #173404;
-      --success-text: #c0dd97;
-      --success-border: #639922;
-      --danger-bg: #501313;
-      --danger-text: #f7c1c1;
-      --danger-border: #e24b4a;
-      --accent: #85b7eb;
-      --accent-bg: #042c53;
+      --bg: #16150f; --card: #201f19; --border: #3a382f; --border-strong: #4c4a3f;
+      --text: #f1efe8; --text-secondary: #b4b2a9; --text-muted: #888780;
+      --success-bg: #173404; --success-text: #c0dd97; --success-border: #639922;
+      --danger-bg: #501313; --danger-text: #f7c1c1; --danger-border: #e24b4a;
+      --accent: #85b7eb; --accent-bg: #042c53;
     }
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0;
-    min-height: 100vh;
-    background: var(--bg);
-    color: var(--text);
+    margin: 0; min-height: 100vh; background: var(--bg); color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px;
+    display: flex; align-items: center; justify-content: center; padding: 24px;
   }
-  .card {
-    width: 100%;
-    max-width: 480px;
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 28px 24px;
-  }
+  .card { width: 100%; max-width: 480px; background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; }
   h1 { font-size: 18px; font-weight: 600; margin: 0 0 4px; text-align: center; }
   .subtitle { font-size: 13px; color: var(--text-secondary); text-align: center; margin: 0 0 20px; }
   .meta-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
   .prompt-label { font-size: 12px; color: var(--text-muted); text-align: center; margin-bottom: 6px; }
-  .prompt-word { font-size: 30px; font-weight: 600; text-align: center; margin-bottom: 20px; }
+  .prompt-word { font-size: 28px; font-weight: 600; text-align: center; margin-bottom: 8px; }
+  .prompt-tl { font-size: 13px; color: var(--text-secondary); text-align: center; margin-bottom: 16px; font-style: italic; }
+  .prompt-sentence { font-size: 20px; font-weight: 500; text-align: center; margin-bottom: 8px; line-height: 1.5; }
+  .prompt-en { font-size: 13px; color: var(--text-secondary); text-align: center; margin-bottom: 18px; }
   .options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .options.stacked { grid-template-columns: 1fr; }
   button { font-family: inherit; cursor: pointer; }
   button.option {
     padding: 14px 10px; font-size: 14px; border-radius: 10px;
@@ -81,20 +52,20 @@
   .feedback { min-height: 20px; text-align: center; font-size: 14px; margin-top: 16px; font-weight: 500; }
   .feedback.correct { color: var(--success-text); }
   .feedback.wrong { color: var(--danger-text); }
+  .explain { font-size: 12px; color: var(--text-secondary); text-align: center; margin-top: 8px; font-weight: 400; }
+  .tl-note { font-size: 12px; color: var(--text-muted); text-align: center; margin-top: 6px; font-weight: 400; font-style: italic; }
   .end-screen { text-align: center; padding: 8px 0; }
   .end-label { font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; }
   .end-score { font-size: 40px; font-weight: 700; margin-bottom: 20px; }
   .best { font-size: 12px; color: var(--text-muted); margin-top: 14px; }
   button.primary {
     padding: 12px 24px; font-size: 14px; font-weight: 500; border-radius: 10px;
-    border: 1px solid var(--accent); background: var(--accent); color: #fff;
-    width: 100%; margin-bottom: 10px;
+    border: 1px solid var(--accent); background: var(--accent); color: #fff; width: 100%; margin-bottom: 10px;
   }
   button.primary:hover { opacity: 0.9; }
   button.secondary {
     padding: 12px 24px; font-size: 14px; font-weight: 500; border-radius: 10px;
-    border: 1px solid var(--border-strong); background: transparent; color: var(--text);
-    width: 100%; margin-bottom: 10px;
+    border: 1px solid var(--border-strong); background: transparent; color: var(--text); width: 100%; margin-bottom: 10px;
   }
   button.secondary:hover { background: rgba(128,128,128,0.08); }
   .menu-stats { text-align: center; font-size: 13px; color: var(--text-secondary); margin-bottom: 22px; }
@@ -114,16 +85,21 @@
   .slider:before { content: ""; position: absolute; height: 18px; width: 18px; left: 3px; bottom: 3px; background: #fff; border-radius: 50%; transition: 0.15s; }
   input:checked + .slider { background: var(--accent); }
   input:checked + .slider:before { transform: translateX(18px); }
-  .wordlist { max-height: 260px; overflow-y: auto; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; }
+  .tabs { display: flex; gap: 6px; margin-bottom: 20px; border-bottom: 1px solid var(--border); }
+  .tab { padding: 8px 4px; margin-right: 16px; font-size: 13px; font-weight: 500; color: var(--text-muted); background: none; border: none; border-bottom: 2px solid transparent; }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .wordlist { max-height: 240px; overflow-y: auto; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 16px; }
   .word-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid var(--border); font-size: 13px; gap: 8px; }
   .word-row:last-child { border-bottom: none; }
   .word-row .word-text { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .word-row .word-ceb { font-weight: 500; }
   .word-row .word-en { color: var(--text-secondary); }
+  .word-row .word-tl { color: var(--text-muted); font-size: 11px; }
   button.del { background: none; border: none; color: var(--danger-text); font-size: 12px; padding: 4px 8px; flex-shrink: 0; }
-  .add-form { display: flex; gap: 8px; margin-bottom: 10px; }
-  .add-form input { flex: 1; }
-  .add-form button { flex-shrink: 0; padding: 0 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent-bg); color: var(--accent); font-size: 13px; font-weight: 500; }
+  .add-form { display: flex; flex-direction: column; gap: 8px; margin-bottom: 10px; }
+  .add-form-row { display: flex; gap: 8px; }
+  .add-form-row input { flex: 1; }
+  .add-form button.addbtn { padding: 10px 14px; border-radius: 8px; border: 1px solid var(--accent); background: var(--accent-bg); color: var(--accent); font-size: 13px; font-weight: 500; }
   .count-note { font-size: 12px; color: var(--text-muted); margin-bottom: 14px; }
   .timer-bar-wrap { height: 4px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: 16px; }
   .timer-bar { height: 100%; background: var(--accent); transition: width 0.2s linear; }
@@ -131,177 +107,363 @@
 </head>
 <body>
 <div class="card">
-  <h1>Bisaya Vocab Quiz</h1>
-  <p class="subtitle">Cebuano &rarr; English, multiple choice</p>
+  <h1 id="pageTitle">Bisaya study app</h1>
+  <p class="subtitle" id="pageSubtitle">Cebuano vocab and grammar drills</p>
   <div id="app"></div>
 </div>
 
 <script>
-  
+/* ---------- Data: word bank ---------- */
 const DEFAULT_WORDS = [
-  // Greetings & basics
-  {ceb:"maayong buntag", en:"good morning"}, {ceb:"maayong hapon", en:"good afternoon"},
-  {ceb:"maayong gabii", en:"good evening"}, {ceb:"kumusta", en:"how are you"},
-  {ceb:"salamat", en:"thank you"}, {ceb:"palihug", en:"please"},
-  {ceb:"pasensya / pasaylo", en:"sorry / excuse me"}, {ceb:"oo", en:"yes"},
-  {ceb:"sige", en:"okay / go ahead"}, {ceb:"ayaw", en:"don't"},
-  {ceb:"amping", en:"take care"}, {ceb:"babay", en:"bye"},
-
-  // Question words
-  {ceb:"unsa", en:"what"}, {ceb:"asa", en:"where"}, {ceb:"kinsa", en:"who"},
-  {ceb:"kanus-a", en:"when"}, {ceb:"ngano", en:"why"}, {ceb:"giunsa", en:"how"},
-  {ceb:"pila", en:"how much / how many"},
-
-  // Pronouns & possessives
-  {ceb:"ako / ko", en:"I / me"}, {ceb:"ikaw / ka", en:"you (sg.)"},
-  {ceb:"siya", en:"he / she"}, {ceb:"kami / mi", en:"we (excl.)"},
-  {ceb:"kita", en:"we (incl., you and I)"}, {ceb:"kamo / mo", en:"you (pl.)"},
-  {ceb:"sila", en:"they"}, {ceb:"akoa", en:"mine"}, {ceb:"imoha", en:"yours"},
-  {ceb:"iyaha", en:"his / hers"},
-
-  // Family
-  {ceb:"amahan / papa", en:"father"}, {ceb:"inahan / mama", en:"mother"},
-  {ceb:"igsoon", en:"sibling"}, {ceb:"anak", en:"child (offspring)"},
-  {ceb:"apohan", en:"grandparent"}, {ceb:"apo", en:"grandchild"},
-  {ceb:"uyoan", en:"uncle"}, {ceb:"iyaan / tiya", en:"aunt"},
-  {ceb:"pamilya", en:"family"}, {ceb:"asawa", en:"wife"}, {ceb:"bana", en:"husband"},
-
-  // Numbers
-  {ceb:"usa / isa", en:"one"}, {ceb:"duha", en:"two"}, {ceb:"tulo", en:"three"},
-  {ceb:"upat", en:"four"}, {ceb:"lima", en:"five"}, {ceb:"unom", en:"six"},
-  {ceb:"pito", en:"seven"}, {ceb:"walo", en:"eight"}, {ceb:"siyam", en:"nine"},
-  {ceb:"napulo", en:"ten"},
-
-  // Time
-  {ceb:"karon", en:"now"}, {ceb:"unya", en:"later"}, {ceb:"ugma", en:"tomorrow"},
-  {ceb:"kagahapon", en:"yesterday"}, {ceb:"buntag", en:"morning"},
-  {ceb:"hapon", en:"afternoon"}, {ceb:"gabii", en:"evening / night"},
-  {ceb:"adlaw", en:"day / sun"}, {ceb:"semana", en:"week"},
-  {ceb:"bulan", en:"month / moon"}, {ceb:"tuig", en:"year"},
-
-  // Colors
-  {ceb:"pula", en:"red"}, {ceb:"asul", en:"blue"}, {ceb:"berde", en:"green"},
-  {ceb:"dilaw", en:"yellow"}, {ceb:"itom", en:"black"}, {ceb:"puti", en:"white"},
-
-  // Common verbs
-  {ceb:"kaon", en:"eat"}, {ceb:"inom", en:"drink"}, {ceb:"palit", en:"buy"},
-  {ceb:"kita", en:"see / find"}, {ceb:"hatag", en:"give"}, {ceb:"adto", en:"go"},
-  {ceb:"lakaw", en:"walk"}, {ceb:"dagan", en:"run"}, {ceb:"tindog", en:"stand"},
-  {ceb:"lingkod", en:"sit"}, {ceb:"tulog", en:"sleep"}, {ceb:"mata", en:"wake up"},
-  {ceb:"sulti", en:"speak / talk"}, {ceb:"pangutana", en:"ask"}, {ceb:"tubag", en:"answer"},
-  {ceb:"tan-aw", en:"watch / look"}, {ceb:"paminaw", en:"listen"}, {ceb:"sulat", en:"write"},
-  {ceb:"basa", en:"read"}, {ceb:"luto", en:"cook"}, {ceb:"hugas", en:"wash"},
-  {ceb:"limpyo", en:"clean"}, {ceb:"trabaho", en:"work"}, {ceb:"dula", en:"play"},
-  {ceb:"tudlo", en:"teach"}, {ceb:"kat-on", en:"learn"}, {ceb:"sabot", en:"understand"},
-  {ceb:"tabang", en:"help"}, {ceb:"sunod", en:"follow"}, {ceb:"hulat", en:"wait"},
-  {ceb:"hinumdom", en:"remember"}, {ceb:"kalimot", en:"forget"}, {ceb:"hulam", en:"borrow"},
-  {ceb:"pahulam", en:"lend"}, {ceb:"hilak", en:"cry"}, {ceb:"katawa", en:"laugh"},
-  {ceb:"pauli", en:"go home"}, {ceb:"ganahan", en:"want / like"}, {ceb:"pwede", en:"can / may"},
-  {ceb:"dapat", en:"should / must"},
-
-  // Places
-  {ceb:"balay", en:"house"}, {ceb:"eskwelahan", en:"school"}, {ceb:"simbahan", en:"church"},
-  {ceb:"ospital", en:"hospital"}, {ceb:"tindahan", en:"store"}, {ceb:"merkado", en:"market"},
-  {ceb:"banyo", en:"bathroom"}, {ceb:"kusina", en:"kitchen"}, {ceb:"kwarto", en:"room"},
-  {ceb:"syudad", en:"city"}, {ceb:"baryo", en:"barangay / village"}, {ceb:"dagat", en:"sea"},
-  {ceb:"bukid", en:"mountain"},
-
-  // Food
-  {ceb:"kan-on", en:"cooked rice"}, {ceb:"tinapay", en:"bread"}, {ceb:"karne", en:"meat"},
-  {ceb:"isda", en:"fish"}, {ceb:"manok", en:"chicken"}, {ceb:"prutas", en:"fruit"},
-  {ceb:"gulay / utan", en:"vegetable"}, {ceb:"asin", en:"salt"}, {ceb:"asukar", en:"sugar"},
-  {ceb:"kape", en:"coffee"}, {ceb:"gatas", en:"milk"}, {ceb:"tubig", en:"water"},
-  {ceb:"lami", en:"delicious"},
-
-  // Adjectives & states
-  {ceb:"dako", en:"big"}, {ceb:"gamay", en:"small / short"}, {ceb:"taas", en:"tall / long"},
-  {ceb:"mubo", en:"short (length)"}, {ceb:"init", en:"hot"}, {ceb:"bugnaw", en:"cold"},
-  {ceb:"bag-o", en:"new"}, {ceb:"daan", en:"old (thing)"}, {ceb:"lisod", en:"difficult"},
-  {ceb:"sayon", en:"easy"}, {ceb:"hinay", en:"slow"}, {ceb:"paspas", en:"fast"},
-  {ceb:"maayo", en:"good"}, {ceb:"daotan", en:"bad"}, {ceb:"gwapo", en:"handsome"},
-  {ceb:"gwapa", en:"pretty"}, {ceb:"gutom", en:"hungry"}, {ceb:"kapoy", en:"tired"},
-  {ceb:"lipay", en:"happy"}, {ceb:"subo / guol", en:"sad"}, {ceb:"buang", en:"crazy"},
-  {ceb:"naa", en:"there is / has"}, {ceb:"wala", en:"there isn't / doesn't have"},
-  {ceb:"dili", en:"not / won't"},
-
-  // Weather
-  {ceb:"ulan", en:"rain"}, {ceb:"hangin", en:"wind"}, {ceb:"bagyo", en:"storm"},
-
-  // Money / shopping
-  {ceb:"kwarta", en:"money"}, {ceb:"presyo", en:"price"}, {ceb:"barato", en:"cheap"},
-  {ceb:"mahal", en:"expensive"},
-
-  // Common particles & fillers
-  {ceb:"gyud / jud", en:"really / truly"}, {ceb:"lang / ra", en:"only / just"},
-  {ceb:"pud / sad", en:"also / too"}, {ceb:"diri", en:"here"}, {ceb:"diha", en:"there (near you)"},
-  {ceb:"didto", en:"over there (far)"}, {ceb:"kadto", en:"that (far)"}, {ceb:"grabe", en:"wow / intense"},
-
-  // People / misc
-  {ceb:"bata", en:"child"}, {ceb:"higala / amigo", en:"friend"}, {ceb:"yawe", en:"key"},
-  {ceb:"libro", en:"book"}, {ceb:"problema", en:"problem"}, {ceb:"nawala", en:"got lost"},
-  {ceb:"sumbag", en:"punch"}, {ceb:"hapit na", en:"about to / soon"}
+  {ceb:"maayong buntag", en:"good morning", tl:"magandang umaga"},
+  {ceb:"maayong hapon", en:"good afternoon", tl:"magandang hapon"},
+  {ceb:"maayong gabii", en:"good evening", tl:"magandang gabi"},
+  {ceb:"kumusta", en:"how are you", tl:"kumusta"},
+  {ceb:"salamat", en:"thank you", tl:"salamat"},
+  {ceb:"palihug", en:"please", tl:"pakiusap"},
+  {ceb:"pasensya / pasaylo", en:"sorry / excuse me", tl:"paumanhin"},
+  {ceb:"oo", en:"yes", tl:"oo"},
+  {ceb:"sige", en:"okay / go ahead", tl:"sige"},
+  {ceb:"ayaw", en:"don't", tl:"huwag"},
+  {ceb:"amping", en:"take care", tl:"ingat"},
+  {ceb:"unsa", en:"what", tl:"ano"},
+  {ceb:"asa", en:"where", tl:"saan"},
+  {ceb:"kinsa", en:"who", tl:"sino"},
+  {ceb:"kanus-a", en:"when", tl:"kailan"},
+  {ceb:"ngano", en:"why", tl:"bakit"},
+  {ceb:"giunsa", en:"how", tl:"paano"},
+  {ceb:"pila", en:"how much / how many", tl:"magkano / ilan"},
+  {ceb:"amahan / papa", en:"father", tl:"ama"},
+  {ceb:"inahan / mama", en:"mother", tl:"ina"},
+  {ceb:"igsoon", en:"sibling", tl:"kapatid"},
+  {ceb:"anak", en:"child (offspring)", tl:"anak"},
+  {ceb:"apohan", en:"grandparent", tl:"lolo / lola"},
+  {ceb:"pamilya", en:"family", tl:"pamilya"},
+  {ceb:"asawa", en:"wife", tl:"asawa"},
+  {ceb:"bana", en:"husband", tl:"asawa (lalaki)"},
+  {ceb:"usa / isa", en:"one", tl:"isa"},
+  {ceb:"duha", en:"two", tl:"dalawa"},
+  {ceb:"tulo", en:"three", tl:"tatlo"},
+  {ceb:"upat", en:"four", tl:"apat"},
+  {ceb:"lima", en:"five", tl:"lima"},
+  {ceb:"karon", en:"now", tl:"ngayon"},
+  {ceb:"unya", en:"later", tl:"mamaya"},
+  {ceb:"ugma", en:"tomorrow", tl:"bukas"},
+  {ceb:"kagahapon", en:"yesterday", tl:"kahapon"},
+  {ceb:"buntag", en:"morning", tl:"umaga"},
+  {ceb:"hapon", en:"afternoon", tl:"hapon"},
+  {ceb:"gabii", en:"evening / night", tl:"gabi"},
+  {ceb:"adlaw", en:"day / sun", tl:"araw"},
+  {ceb:"bulan", en:"month / moon", tl:"buwan"},
+  {ceb:"pula", en:"red", tl:"pula"},
+  {ceb:"asul", en:"blue", tl:"asul"},
+  {ceb:"dilaw", en:"yellow", tl:"dilaw"},
+  {ceb:"itom", en:"black", tl:"itim"},
+  {ceb:"puti", en:"white", tl:"puti"},
+  {ceb:"kaon", en:"eat", tl:"kumain"},
+  {ceb:"inom", en:"drink", tl:"uminom"},
+  {ceb:"palit", en:"buy", tl:"bumili"},
+  {ceb:"kita", en:"see / find", tl:"makita"},
+  {ceb:"hatag", en:"give", tl:"magbigay"},
+  {ceb:"adto", en:"go", tl:"pumunta"},
+  {ceb:"lakaw", en:"walk", tl:"maglakad"},
+  {ceb:"dagan", en:"run", tl:"tumakbo"},
+  {ceb:"tulog", en:"sleep", tl:"matulog"},
+  {ceb:"mata", en:"wake up", tl:"gumising"},
+  {ceb:"sulti", en:"speak / talk", tl:"magsalita"},
+  {ceb:"pangutana", en:"ask", tl:"magtanong"},
+  {ceb:"tubag", en:"answer", tl:"sumagot"},
+  {ceb:"tan-aw", en:"watch / look", tl:"tumingin"},
+  {ceb:"sulat", en:"write", tl:"sumulat"},
+  {ceb:"basa", en:"read", tl:"magbasa"},
+  {ceb:"luto", en:"cook", tl:"magluto"},
+  {ceb:"hugas", en:"wash", tl:"maghugas"},
+  {ceb:"limpyo", en:"clean", tl:"maglinis"},
+  {ceb:"trabaho", en:"work", tl:"trabaho"},
+  {ceb:"dula", en:"play", tl:"maglaro"},
+  {ceb:"tudlo", en:"teach", tl:"magturo"},
+  {ceb:"kat-on", en:"learn", tl:"matuto"},
+  {ceb:"sabot", en:"understand", tl:"maintindihan"},
+  {ceb:"tabang", en:"help", tl:"tumulong"},
+  {ceb:"sunod", en:"follow", tl:"sumunod"},
+  {ceb:"hulat", en:"wait", tl:"maghintay"},
+  {ceb:"hinumdom", en:"remember", tl:"alalahanin"},
+  {ceb:"kalimot", en:"forget", tl:"kalimutan"},
+  {ceb:"hulam", en:"borrow", tl:"humiram"},
+  {ceb:"pahulam", en:"lend", tl:"magpahiram"},
+  {ceb:"hilak", en:"cry", tl:"umiyak"},
+  {ceb:"katawa", en:"laugh", tl:"tumawa"},
+  {ceb:"pauli", en:"go home", tl:"umuwi"},
+  {ceb:"ganahan", en:"want / like", tl:"gusto"},
+  {ceb:"pwede", en:"can / may", tl:"pwede"},
+  {ceb:"dapat", en:"should / must", tl:"dapat"},
+  {ceb:"balay", en:"house", tl:"bahay"},
+  {ceb:"eskwelahan", en:"school", tl:"paaralan"},
+  {ceb:"simbahan", en:"church", tl:"simbahan"},
+  {ceb:"ospital", en:"hospital", tl:"ospital"},
+  {ceb:"tindahan", en:"store", tl:"tindahan"},
+  {ceb:"merkado", en:"market", tl:"palengke"},
+  {ceb:"kusina", en:"kitchen", tl:"kusina"},
+  {ceb:"kwarto", en:"room", tl:"kwarto"},
+  {ceb:"syudad", en:"city", tl:"lungsod"},
+  {ceb:"dagat", en:"sea", tl:"dagat"},
+  {ceb:"bukid", en:"mountain", tl:"bundok"},
+  {ceb:"kan-on", en:"cooked rice", tl:"kanin"},
+  {ceb:"tinapay", en:"bread", tl:"tinapay"},
+  {ceb:"karne", en:"meat", tl:"karne"},
+  {ceb:"isda", en:"fish", tl:"isda"},
+  {ceb:"manok", en:"chicken", tl:"manok"},
+  {ceb:"prutas", en:"fruit", tl:"prutas"},
+  {ceb:"gulay / utan", en:"vegetable", tl:"gulay"},
+  {ceb:"kape", en:"coffee", tl:"kape"},
+  {ceb:"gatas", en:"milk", tl:"gatas"},
+  {ceb:"tubig", en:"water", tl:"tubig"},
+  {ceb:"lami", en:"delicious", tl:"masarap"},
+  {ceb:"dako", en:"big", tl:"malaki"},
+  {ceb:"gamay", en:"small / short", tl:"maliit"},
+  {ceb:"taas", en:"tall / long", tl:"mataas"},
+  {ceb:"init", en:"hot", tl:"mainit"},
+  {ceb:"bugnaw", en:"cold", tl:"malamig"},
+  {ceb:"bag-o", en:"new", tl:"bago"},
+  {ceb:"daan", en:"old (thing)", tl:"luma"},
+  {ceb:"lisod", en:"difficult", tl:"mahirap"},
+  {ceb:"sayon", en:"easy", tl:"madali"},
+  {ceb:"hinay", en:"slow", tl:"mabagal"},
+  {ceb:"paspas", en:"fast", tl:"mabilis"},
+  {ceb:"maayo", en:"good", tl:"mabuti"},
+  {ceb:"daotan", en:"bad", tl:"masama"},
+  {ceb:"gwapo", en:"handsome", tl:"guwapo"},
+  {ceb:"gwapa", en:"pretty", tl:"maganda"},
+  {ceb:"gutom", en:"hungry", tl:"gutom"},
+  {ceb:"kapoy", en:"tired", tl:"pagod"},
+  {ceb:"lipay", en:"happy", tl:"masaya"},
+  {ceb:"subo / guol", en:"sad", tl:"malungkot"},
+  {ceb:"buang", en:"crazy", tl:"baliw"},
+  {ceb:"naa", en:"there is / has", tl:"mayroon"},
+  {ceb:"wala", en:"there isn't / doesn't have", tl:"wala"},
+  {ceb:"dili", en:"not / won't", tl:"hindi"},
+  {ceb:"ulan", en:"rain", tl:"ulan"},
+  {ceb:"hangin", en:"wind", tl:"hangin"},
+  {ceb:"bagyo", en:"storm", tl:"bagyo"},
+  {ceb:"kwarta", en:"money", tl:"pera"},
+  {ceb:"presyo", en:"price", tl:"presyo"},
+  {ceb:"barato", en:"cheap", tl:"mura"},
+  {ceb:"mahal", en:"expensive", tl:"mahal"},
+  {ceb:"gyud / jud", en:"really / truly", tl:"talaga"},
+  {ceb:"lang / ra", en:"only / just", tl:"lang"},
+  {ceb:"pud / sad", en:"also / too", tl:"din / rin"},
+  {ceb:"diri", en:"here", tl:"dito"},
+  {ceb:"diha", en:"there (near you)", tl:"diyan"},
+  {ceb:"didto", en:"over there (far)", tl:"doon"},
+  {ceb:"kadto", en:"that (far)", tl:"iyon"},
+  {ceb:"grabe", en:"wow / intense", tl:"grabe"},
+  {ceb:"bata", en:"child", tl:"bata"},
+  {ceb:"higala / amigo", en:"friend", tl:"kaibigan"},
+  {ceb:"yawe", en:"key", tl:"susi"},
+  {ceb:"libro", en:"book", tl:"libro"},
+  {ceb:"problema", en:"problem", tl:"problema"},
+  {ceb:"nawala", en:"got lost", tl:"nawala"},
+  {ceb:"sumbag", en:"punch", tl:"suntok"},
+  {ceb:"hapit na", en:"about to / soon", tl:"malapit na"}
 ];
 
-const DEFAULT_SETTINGS = { count: 10, timerEnabled: false, timerSeconds: 15 };
+/* ---------- Data: grammar quiz ---------- */
+const GRAMMAR_QUESTIONS = [
+  { tl:"Kumain ako ng tinapay.", en:"I ate bread.", sentence:"___ ko ug tinapay.",
+    answer:"Mikaon", options:["Mikaon","Gikaon","Kaonon","Naghatag"],
+    explain:"Actor focus, past — mi- marks the doer as the focus." },
+  { tl:"Bibili ako ng bahay bukas.", en:"I will buy a house tomorrow.", sentence:"___ ko ug balay ugma.",
+    answer:"Mopalit", options:["Mopalit","Gipalit","Palitan","Nagpalit"],
+    explain:"Actor focus, future/potential — mo- for actions not yet started." },
+  { tl:"Nagluluto ang mga bata ngayon.", en:"The kids are cooking right now.", sentence:"___ ang mga bata karon.",
+    answer:"Nagluto", options:["Nagluto","Miluto","Lutoon","Giluto"],
+    explain:"Actor focus, ongoing/habitual — nag- for actions in progress." },
+  { tl:"Binili ko ang libro.", en:"I bought the book.", sentence:"___ nako ang libro.",
+    answer:"Gipalit", options:["Gipalit","Mipalit","Palitan","Nagpalit"],
+    explain:"Object focus, past — gi- because 'the book' is the focused topic." },
+  { tl:"Kinain niya ang saging.", en:"He ate the banana.", sentence:"Gikaon ___ ang saging.",
+    answer:"niya", options:["niya","siya","iya","kaniya"],
+    explain:"Object-focus (gi-) verbs pair with a genitive actor: niya, not siya." },
+  { tl:"Kumain siya ng saging.", en:"He ate a banana.", sentence:"___ mikaon ug saging.",
+    answer:"Siya", options:["Siya","Niya","Kaniya","Iya"],
+    explain:"Actor-focus (mi-) verbs pair with a nominative actor: siya, not niya." },
+  { tl:"Hinugasan niya ang plato.", en:"She washed the dish.", sentence:"___ niya ang plato.",
+    answer:"Gihugasan", options:["Gihugasan","Ginhugas","Hugasan","Naghugas"],
+    explain:"Locative/beneficiary focus, past — gi- stacks onto the -an suffix (dish is the surface acted on)." },
+  { tl:"May pera ako.", en:"I have money.", sentence:"___ koy kwarta.",
+    answer:"Naa", options:["Naa","Wala","Dili","Ayaw"],
+    explain:"Naa marks existence/possession — 'there is/I have.'" },
+  { tl:"Hindi ako kumain ng tinapay.", en:"I didn't eat bread.", sentence:"___ ko mikaon ug tinapay.",
+    answer:"Wala", options:["Wala","Dili","Ayaw","Gawas"],
+    explain:"Wala negates a completed past action; dili would imply refusal, not what happened." },
+  { tl:"Ayaw niyang kumain ng gulay.", en:"He doesn't want to eat vegetables.", sentence:"___ siya ganahan mokaon ug utan.",
+    answer:"Dili", options:["Dili","Wala","Ayaw","Wa"],
+    explain:"Dili negates a general/present state (not wanting), not a completed action." },
+  { tl:"Gutom ako.", en:"I'm hungry.", sentence:"Gutom ___.",
+    answer:"ko", options:["ko","nako","akong","kanako"],
+    explain:"Plain adjectives always pair with the nominative pronoun (ko), no exceptions." },
+  { tl:"Binigyan niya ako ng pera.", en:"She gave me the money.", sentence:"Gihatag niya ___ ang kwarta.",
+    answer:"kanako", options:["kanako","nako","ko","akong"],
+    explain:"Plain gi- (no -an) constructions mark the recipient with kana- forms: kanako, not nako." },
+  { tl:"Tinuruan niya ako ng Bisaya.", en:"She taught me Bisaya.", sentence:"Gitudluan niya ___ ug Bisaya.",
+    answer:"ko", options:["ko","nako","kanako","akong"],
+    explain:"Unlike plain gi-, gi-...-an constructions put the focused recipient in nominative: ko, not kanako." },
+  { tl:"May gwapang babae sa tabi ko.", en:"There's a pretty girl beside me.", sentence:"Naa'y gwapa nga babaye sa ___ tabi.",
+    answer:"akong", options:["akong","nako","kanako","ko"],
+    explain:"Possessives attached directly to nouns use akong/imong/iyang, a distinct set from nako/nimo/niya." },
+  { tl:"Tutulungan kita.", en:"I will help you.", sentence:null,
+    answer:"Tabangan ko ka", options:["Tabangan ko ka","Motabang kita","Tabangan ka nako","Tabangan mo ko"],
+    explain:"Kita means 'you and I' (inclusive we) — not 'I...you'. That's a genuine trap for Tagalog speakers." },
+  { tl:"Kinain mo ang saging.", en:"You ate the banana.", sentence:"___ nimo ang saging.",
+    answer:"Gikaon", options:["Gikaon","Gikaonon","Kaonon","Nikaon"],
+    explain:"-on (object focus) drops entirely in past tense — gi- alone does the job, unlike -an which stacks." },
+  { tl:"Hindi pa siya nakakatawa.", en:"She hasn't laughed yet.", sentence:"Wala ___ siya makatawa.",
+    answer:"pa", options:["pa","na","ra","gyud"],
+    explain:"Wala pa = 'not yet' for a completed action that hasn't happened; na would mean 'already.'" },
+  { tl:"Nakipaghiwalay kami noong nakaraang buwan lang.", en:"We broke up just last month.", sentence:null,
+    answer:"Nakigbulag mi miaging bulan ra", options:["Nakigbulag mi miaging bulan ra","Nakigbulag ra mi miaging bulan","Ra nakigbulag mi miaging bulan","Miaging ra bulan nakigbulag mi"],
+    explain:"Ra sits right after the word it modifies — here, 'miaging bulan' (just last month), for recency emphasis." }
+];
+
+/* ---------- Settings & storage ---------- */
+const DEFAULT_SETTINGS = { count: 10, timerEnabled: false, timerSeconds: 15, tagalogMode: 'feedback' };
 
 const LS_WORDS = 'bisaya-quiz-words';
 const LS_SETTINGS = 'bisaya-quiz-settings';
-const LS_BEST = 'bisaya-quiz-best';
+const LS_BEST_WORD = 'bisaya-quiz-best-word';
+const LS_BEST_GRAMMAR = 'bisaya-quiz-best-grammar';
 
 function safeGet(key, fallback) {
-  try {
-    const v = localStorage.getItem(key);
-    return v ? JSON.parse(v) : fallback;
-  } catch (e) { return fallback; }
+  try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+  catch (e) { return fallback; }
 }
-function safeSet(key, val) {
-  try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {}
-}
+function safeSet(key, val) { try { localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
 
 function getWords() { return safeGet(LS_WORDS, DEFAULT_WORDS); }
 function setWords(w) { safeSet(LS_WORDS, w); }
 function getSettings() { return Object.assign({}, DEFAULT_SETTINGS, safeGet(LS_SETTINGS, {})); }
 function setSettings(s) { safeSet(LS_SETTINGS, s); }
-function getBest() { return safeGet(LS_BEST, 0); }
-function setBest(v) { safeSet(LS_BEST, v); }
+function getBest(mode) { return safeGet(mode === 'grammar' ? LS_BEST_GRAMMAR : LS_BEST_WORD, 0); }
+function setBest(mode, v) { safeSet(mode === 'grammar' ? LS_BEST_GRAMMAR : LS_BEST_WORD, v); }
 
 function shuffle(arr) { return [...arr].sort(() => Math.random() - 0.5); }
+function escapeHtml(str) { const div = document.createElement('div'); div.textContent = str; return div.innerHTML; }
 
-let screen = 'menu';
+/* ---------- State ---------- */
+let screen = 'menu';       // menu | settings | quiz | end
+let mode = 'word';         // word | grammar
+let settingsTab = 'wordbank'; // wordbank | quiz
 let quiz = [], qIndex = 0, score = 0, streak = 0, answered = false;
-let timerInterval = null, timeLeft = 0;
+let timerInterval = null;
 
 const app = document.getElementById('app');
 
 function render() {
   if (screen === 'menu') return renderMenu();
   if (screen === 'settings') return renderSettings();
-  if (screen === 'wordbank') return renderWordbank();
   if (screen === 'quiz') return renderQuiz();
   if (screen === 'end') return renderEnd();
 }
 
+/* ---------- Menu ---------- */
 function renderMenu() {
-  const best = getBest();
   const words = getWords();
+  const bestWord = getBest('word');
+  const bestGrammar = getBest('grammar');
   app.innerHTML = `
-    <div class="menu-stats">${words.length} words in bank &middot; best score ${best}</div>
-    <button class="primary" id="play">Play</button>
-    <button class="secondary" id="wordbank">Word bank</button>
+    <div class="menu-stats">${words.length} words &middot; word best ${bestWord} &middot; grammar best ${bestGrammar}</div>
+    <button class="primary" id="wordQuiz">Word quiz</button>
+    <button class="primary" id="grammarQuiz">Grammar quiz</button>
     <button class="secondary" id="settings">Settings</button>
   `;
-  document.getElementById('play').onclick = () => { screen = 'quiz'; startQuiz(); };
-  document.getElementById('wordbank').onclick = () => { screen = 'wordbank'; render(); };
-  document.getElementById('settings').onclick = () => { screen = 'settings'; render(); };
+  document.getElementById('wordQuiz').onclick = () => { mode = 'word'; screen = 'quiz'; startQuiz(); };
+  document.getElementById('grammarQuiz').onclick = () => { mode = 'grammar'; screen = 'quiz'; startQuiz(); };
+  document.getElementById('settings').onclick = () => { screen = 'settings'; settingsTab = 'wordbank'; render(); };
 }
 
+/* ---------- Settings ---------- */
 function renderSettings() {
-  const s = getSettings();
-  const words = getWords();
-  const maxCount = Math.min(30, words.length);
-  const countOptions = [5, 10, 15, 20, 25, 30].filter(n => n <= maxCount || n === 5);
   app.innerHTML = `
     <div class="back-row"><button class="back" id="back">&larr; Back</button></div>
+    <div class="tabs">
+      <button class="tab ${settingsTab === 'wordbank' ? 'active' : ''}" id="tabWordbank">Word bank</button>
+      <button class="tab ${settingsTab === 'quiz' ? 'active' : ''}" id="tabQuiz">Quiz settings</button>
+    </div>
+    <div id="settingsBody"></div>
+  `;
+  document.getElementById('back').onclick = () => { screen = 'menu'; render(); };
+  document.getElementById('tabWordbank').onclick = () => { settingsTab = 'wordbank'; renderSettings(); };
+  document.getElementById('tabQuiz').onclick = () => { settingsTab = 'quiz'; renderSettings(); };
+
+  if (settingsTab === 'wordbank') renderWordbank();
+  else renderQuizSettings();
+}
+
+function renderWordbank() {
+  const words = getWords();
+  const body = document.getElementById('settingsBody');
+  body.innerHTML = `
+    <div class="add-form">
+      <div class="add-form-row">
+        <input type="text" id="newCeb" placeholder="Cebuano word">
+        <input type="text" id="newEn" placeholder="English meaning">
+      </div>
+      <div class="add-form-row">
+        <input type="text" id="newTl" placeholder="Tagalog equivalent (optional)">
+        <button class="addbtn" id="addWord">Add</button>
+      </div>
+    </div>
+    <div class="count-note">${words.length} words &middot; need at least 4 to play</div>
+    <div class="wordlist" id="wordlist"></div>
+    <button class="secondary" id="resetWords">Reset to default list</button>
+  `;
+  const listEl = document.getElementById('wordlist');
+  words.forEach((w, i) => {
+    const row = document.createElement('div');
+    row.className = 'word-row';
+    row.innerHTML = `
+      <span class="word-text">
+        <span class="word-ceb">${escapeHtml(w.ceb)}</span> &mdash; <span class="word-en">${escapeHtml(w.en)}</span>
+        ${w.tl ? `<br><span class="word-tl">TL: ${escapeHtml(w.tl)}</span>` : ''}
+      </span>
+      <button class="del" data-i="${i}">Remove</button>
+    `;
+    listEl.appendChild(row);
+  });
+  listEl.querySelectorAll('.del').forEach(btn => {
+    btn.onclick = () => {
+      const i = parseInt(btn.getAttribute('data-i'), 10);
+      const cur = getWords();
+      cur.splice(i, 1);
+      setWords(cur);
+      renderWordbank();
+    };
+  });
+  document.getElementById('addWord').onclick = () => {
+    const ceb = document.getElementById('newCeb').value.trim();
+    const en = document.getElementById('newEn').value.trim();
+    const tl = document.getElementById('newTl').value.trim();
+    if (!ceb || !en) return;
+    const cur = getWords();
+    const entry = { ceb, en };
+    if (tl) entry.tl = tl;
+    cur.push(entry);
+    setWords(cur);
+    renderWordbank();
+  };
+  document.getElementById('resetWords').onclick = () => {
+    setWords(DEFAULT_WORDS);
+    renderWordbank();
+  };
+}
+
+function renderQuizSettings() {
+  const s = getSettings();
+  const words = getWords();
+  const maxCount = Math.min(30, Math.max(words.length, GRAMMAR_QUESTIONS.length));
+  const countOptions = [5, 10, 15, 20, 25, 30].filter(n => n <= maxCount || n === 5);
+  const body = document.getElementById('settingsBody');
+  body.innerHTML = `
     <div class="field-row">
       <label class="field-label">Questions per round</label>
       <select id="count">
@@ -321,90 +483,44 @@ function renderSettings() {
         ${[5, 10, 15, 20, 30].map(n => `<option value="${n}" ${n === s.timerSeconds ? 'selected' : ''}>${n}s</option>`).join('')}
       </select>
     </div>
+    <div class="field-row">
+      <label class="field-label">Tagalog equivalent (word quiz)</label>
+      <select id="tagalogMode">
+        <option value="off" ${s.tagalogMode === 'off' ? 'selected' : ''}>Off</option>
+        <option value="feedback" ${s.tagalogMode === 'feedback' ? 'selected' : ''}>Show after answering</option>
+        <option value="always" ${s.tagalogMode === 'always' ? 'selected' : ''}>Show on the question too</option>
+      </select>
+    </div>
   `;
-  document.getElementById('back').onclick = () => { screen = 'menu'; render(); };
   document.getElementById('count').onchange = (e) => {
-    const cur = getSettings();
-    cur.count = parseInt(e.target.value, 10);
-    setSettings(cur);
+    const cur = getSettings(); cur.count = parseInt(e.target.value, 10); setSettings(cur);
   };
   document.getElementById('timerToggle').onchange = (e) => {
-    const cur = getSettings();
-    cur.timerEnabled = e.target.checked;
-    setSettings(cur);
+    const cur = getSettings(); cur.timerEnabled = e.target.checked; setSettings(cur);
     document.getElementById('timerSecondsRow').style.display = cur.timerEnabled ? '' : 'none';
   };
   document.getElementById('timerSeconds').onchange = (e) => {
-    const cur = getSettings();
-    cur.timerSeconds = parseInt(e.target.value, 10);
-    setSettings(cur);
+    const cur = getSettings(); cur.timerSeconds = parseInt(e.target.value, 10); setSettings(cur);
+  };
+  document.getElementById('tagalogMode').onchange = (e) => {
+    const cur = getSettings(); cur.tagalogMode = e.target.value; setSettings(cur);
   };
 }
 
-function renderWordbank() {
-  const words = getWords();
-  app.innerHTML = `
-    <div class="back-row"><button class="back" id="back">&larr; Back</button></div>
-    <div class="add-form">
-      <input type="text" id="newCeb" placeholder="Cebuano word">
-      <input type="text" id="newEn" placeholder="English meaning">
-      <button id="addWord">Add</button>
-    </div>
-    <div class="count-note">${words.length} words &middot; need at least 4 to play</div>
-    <div class="wordlist" id="wordlist"></div>
-    <button class="secondary" id="resetWords">Reset to default list</button>
-  `;
-  const listEl = document.getElementById('wordlist');
-  words.forEach((w, i) => {
-    const row = document.createElement('div');
-    row.className = 'word-row';
-    row.innerHTML = `
-      <span class="word-text"><span class="word-ceb">${escapeHtml(w.ceb)}</span> &mdash; <span class="word-en">${escapeHtml(w.en)}</span></span>
-      <button class="del" data-i="${i}">Remove</button>
-    `;
-    listEl.appendChild(row);
-  });
-  listEl.querySelectorAll('.del').forEach(btn => {
-    btn.onclick = () => {
-      const i = parseInt(btn.getAttribute('data-i'), 10);
-      const cur = getWords();
-      cur.splice(i, 1);
-      setWords(cur);
-      renderWordbank();
-    };
-  });
-  document.getElementById('back').onclick = () => { screen = 'menu'; render(); };
-  document.getElementById('addWord').onclick = () => {
-    const cebEl = document.getElementById('newCeb');
-    const enEl = document.getElementById('newEn');
-    const ceb = cebEl.value.trim();
-    const en = enEl.value.trim();
-    if (!ceb || !en) return;
-    const cur = getWords();
-    cur.push({ ceb, en });
-    setWords(cur);
-    renderWordbank();
-  };
-  document.getElementById('resetWords').onclick = () => {
-    setWords(DEFAULT_WORDS);
-    renderWordbank();
-  };
-}
-
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
+/* ---------- Quiz (shared engine) ---------- */
 function startQuiz() {
   const s = getSettings();
-  const words = getWords();
-  const count = Math.min(s.count, words.length);
-  quiz = shuffle(words).slice(0, count).map(w => {
-    const wrongPool = shuffle(words.filter(x => x.en !== w.en)).slice(0, 3).map(x => x.en);
-    return { ceb: w.ceb, answer: w.en, options: shuffle([w.en, ...wrongPool]) };
-  });
+  if (mode === 'word') {
+    const words = getWords();
+    const count = Math.min(s.count, words.length);
+    quiz = shuffle(words).slice(0, count).map(w => {
+      const wrongPool = shuffle(words.filter(x => x.en !== w.en)).slice(0, 3).map(x => x.en);
+      return { type: 'word', ceb: w.ceb, tl: w.tl || null, answer: w.en, options: shuffle([w.en, ...wrongPool]) };
+    });
+  } else {
+    const count = Math.min(s.count, GRAMMAR_QUESTIONS.length);
+    quiz = shuffle(GRAMMAR_QUESTIONS).slice(0, count).map(q => ({ type: 'grammar', ...q, options: shuffle(q.options) }));
+  }
   qIndex = 0; score = 0; streak = 0;
   render();
 }
@@ -412,15 +528,27 @@ function startQuiz() {
 function renderQuiz() {
   const s = getSettings();
   const total = quiz.length;
-
   if (qIndex >= total) { screen = 'end'; return render(); }
 
   const q = quiz[qIndex];
   answered = false;
 
-  let timerHtml = '';
-  if (s.timerEnabled) {
-    timerHtml = `<div class="timer-bar-wrap"><div class="timer-bar" id="timerBar" style="width:100%;"></div></div>`;
+  let timerHtml = s.timerEnabled ? `<div class="timer-bar-wrap"><div class="timer-bar" id="timerBar" style="width:100%;"></div></div>` : '';
+  let promptHtml = '';
+
+  if (q.type === 'word') {
+    const showTlNow = s.tagalogMode === 'always' && q.tl;
+    promptHtml = `
+      <div class="prompt-label">What does this mean?</div>
+      <div class="prompt-word">${escapeHtml(q.ceb)}</div>
+      ${showTlNow ? `<div class="prompt-tl">Tagalog: ${escapeHtml(q.tl)}</div>` : ''}
+    `;
+  } else {
+    promptHtml = `
+      <div class="prompt-label">Fill in the blank</div>
+      <div class="prompt-sentence">${q.sentence ? escapeHtml(q.sentence).replace('___', '<u>____</u>') : 'Choose the correct sentence'}</div>
+      <div class="prompt-en">${escapeHtml(q.en)}${q.tl ? ' &middot; ' + escapeHtml(q.tl) : ''}</div>
+    `;
   }
 
   app.innerHTML = `
@@ -429,9 +557,8 @@ function renderQuiz() {
       <span>Score: ${score}${streak >= 2 ? ' &middot; streak ' + streak : ''}</span>
     </div>
     ${timerHtml}
-    <div class="prompt-label">What does this mean?</div>
-    <div class="prompt-word">${escapeHtml(q.ceb)}</div>
-    <div class="options" id="options"></div>
+    ${promptHtml}
+    <div class="options ${q.type === 'grammar' && !q.sentence ? 'stacked' : ''}" id="options"></div>
     <div class="feedback" id="feedback"></div>
   `;
 
@@ -445,7 +572,6 @@ function renderQuiz() {
   });
 
   if (s.timerEnabled) {
-    timeLeft = s.timerSeconds;
     const bar = document.getElementById('timerBar');
     const totalMs = s.timerSeconds * 1000;
     const start = Date.now();
@@ -467,6 +593,7 @@ function handleAnswer(opt, btn, q) {
   answered = true;
   clearInterval(timerInterval);
 
+  const s = getSettings();
   const correct = opt === q.answer;
   document.querySelectorAll('#options button').forEach(b => {
     b.disabled = true;
@@ -475,26 +602,41 @@ function handleAnswer(opt, btn, q) {
   });
 
   const fb = document.getElementById('feedback');
+  let text, cls;
   if (correct) {
     score++; streak++;
-    fb.textContent = 'Correct!';
-    fb.className = 'feedback correct';
+    text = 'Correct!'; cls = 'feedback correct';
   } else {
     streak = 0;
-    fb.textContent = opt === null ? `Time's up — it means "${q.answer}"` : `Not quite — it means "${q.answer}"`;
-    fb.className = 'feedback wrong';
+    text = opt === null ? `Time's up — the answer was "${q.answer}"` : `Not quite — the answer was "${q.answer}"`;
+    cls = 'feedback wrong';
+  }
+  fb.textContent = text;
+  fb.className = cls;
+
+  if (q.type === 'grammar' && q.explain) {
+    const ex = document.createElement('div');
+    ex.className = 'explain';
+    ex.textContent = q.explain;
+    fb.appendChild(ex);
+  }
+  if (q.type === 'word' && s.tagalogMode === 'feedback' && q.tl) {
+    const tlEl = document.createElement('div');
+    tlEl.className = 'tl-note';
+    tlEl.textContent = `Tagalog: ${q.tl}`;
+    fb.appendChild(tlEl);
   }
 
-  setTimeout(() => { qIndex++; render(); }, 1100);
+  setTimeout(() => { qIndex++; render(); }, q.type === 'grammar' ? 1800 : 1100);
 }
 
 function renderEnd() {
   const total = quiz.length;
-  const best = getBest();
-  if (score > best) setBest(score);
+  const best = getBest(mode);
+  if (score > best) setBest(mode, score);
   app.innerHTML = `
     <div class="end-screen">
-      <div class="end-label">Quiz complete</div>
+      <div class="end-label">${mode === 'grammar' ? 'Grammar quiz' : 'Word quiz'} complete</div>
       <div class="end-score">${score} / ${total}</div>
       <button class="primary" id="again">Play again</button>
       <button class="secondary" id="menu">Main menu</button>
